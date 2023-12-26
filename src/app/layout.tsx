@@ -16,7 +16,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      {/* suppressHydrationWarning to stop receiving extra attributes from the server warning in console */}
+      <body className={inter.className} suppressHydrationWarning={true}>
         {/* Setting the width of all elements accross all pages the same size */}
         <div className="container mx-auto px-12">{children}</div>
       </body>
