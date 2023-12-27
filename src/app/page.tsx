@@ -1,6 +1,12 @@
 import Link from 'next/link';
 import { db } from '@/db';
 
+/**
+ * Home page component.
+ *
+ * Fetches all snippets from the database and displays them in a list.
+ * Allows creating a new snippet.
+ */
 export default async function Home() {
   const snippets = await db.snippet.findMany();
   // loop through snippet and display title in h1 tag

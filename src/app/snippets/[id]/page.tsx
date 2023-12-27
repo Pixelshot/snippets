@@ -8,6 +8,13 @@ interface SnippetShowPageProps {
   };
 }
 
+/**
+ * Renders the page to show a specific snippet.
+ *
+ * Fetches the snippet data from the database based on the ID in the page params.
+ * Renders the snippet title, code, and provides edit/delete actions.
+ * Returns a 404 page if no snippet found for the given ID.
+ */
 export default async function showSnippetPage(props: SnippetShowPageProps) {
   const snippet = await db.snippet.findFirst({
     where: { id: parseInt(props.params.id) },
