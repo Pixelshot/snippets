@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import { db } from '@/db';
 import Link from 'next/link';
 import * as actions from '@/actions';
+import SnippetDisplay from '@/components/snippet-display';
 
 interface SnippetShowPageProps {
   params: {
@@ -43,9 +44,10 @@ export default async function showSnippetPage(props: SnippetShowPageProps) {
         </div>
       </div>
       {/* Original design showcasing code */}
-      <pre className="p-3 border rounded bg-gray-200 border-gray-200">
+      {/* <pre className="p-3 border rounded bg-gray-200 border-gray-200">
         <code>{snippet.code}</code>
-      </pre>
+      </pre> */}
+      <SnippetDisplay snippet={snippet} />
     </div>
   );
 }
