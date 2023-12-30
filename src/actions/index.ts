@@ -3,8 +3,16 @@
 'use server';
 
 import { db } from "@/db";
+import { redirect } from 'next/navigation';
 
 // To be used inside of snippet-edit-form.tsx
-export async function editSnippet() {
-	console.log('edit snippet called')
+export async function editSnippet(id: number, code: string) {
+	await db.snippet.update({ where: { id }, data: { code } });
+
+	redirect(`/snippets/${id}`);
+}
+
+export async function deleteSnippet(id: number) {
+	await db.snippet.delete({ where: { id } });
+	redirect('/');
 }

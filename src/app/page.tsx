@@ -22,7 +22,6 @@ export default async function Home() {
       </Link>
     );
   });
-  console.log(snippets);
 
   return (
     <div>
