@@ -17,26 +17,39 @@ export async function createSnippet(formState: { message: string }, formData: Fo
 	const title = formData.get('title');
 	const code = formData.get('code');
 
-	if (typeof title !== 'string' || title.length < 3) {
-		return {
-			message: "Title must be longer than 3 characters",
+	try {
+		if (typeof title !== 'string' || title.length < 3) {
+			return {
+				message: "Title must be longer than 3 characters",
+			}
+		}
+
+		if (typeof code !== 'string' || code.length < 10) {
+			return {
+				message: 'Code must be longer than 10 characters',
+			}
+		}
+
+		// Create a new record in the database
+		await db.snippet.create({
+			data: {
+				// Because key and values are the same, we can short cut with just the key
+				title,
+				code,
+			},
+		});
+
+	} catch (err: unknown) {
+		if (err instanceof Error) {
+			return {
+				message: err.message
+			}
+		} else {
+			return {
+				message: 'An unknown error occured'
+			}
 		}
 	}
-
-	if (typeof code !== 'string' || code.length < 10) {
-		return {
-			message: 'Code must be longer than 10 characters',
-		}
-	}
-
-	// Create a new record in the database
-	const snippet = await db.snippet.create({
-		data: {
-			// Because key and values are the same, we can short cut with just the key
-			title,
-			code,
-		},
-	});
 
 	// TODO: Redirect the user back to the root route(see if we can show a flash message indicating the snippet was successfully created)
 	// User Next's redirect
