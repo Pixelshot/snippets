@@ -5,6 +5,8 @@
 
 import { db } from "@/db"; // Since index.ts is the only file in db, it will automatically be loaded
 import { redirect } from 'next/navigation';
+// Purge cache data
+import { revalidatePath } from 'next/cache'
 
 // This async function is to deal with the input submitted from the user on our form
 // It's async because it'll be dealing with the database, therefore it may take a bit of time to respond
@@ -51,6 +53,8 @@ export async function createSnippet(formState: { message: string }, formData: Fo
 		}
 	}
 
+	revalidatePath('/');
+
 	// TODO: Redirect the user back to the root route(see if we can show a flash message indicating the snippet was successfully created)
 	// User Next's redirect
 	redirect('/');
@@ -66,5 +70,6 @@ export async function editSnippet(id: number, code: string) {
 
 export async function deleteSnippet(id: number) {
 	await db.snippet.delete({ where: { id } });
+	revalidatePath('/');
 	redirect('/');
 }
