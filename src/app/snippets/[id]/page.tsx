@@ -32,6 +32,9 @@ export default async function showSnippetPage(props: SnippetShowPageProps) {
       <div className="flex m-4 justify-between items-center">
         <h1 className="text-xl font-bold">{snippet.title}</h1>
         <div className="flex gap-4">
+          <Link href={`/`} className="p-2 border rounded">
+            Home
+          </Link>
           <Link
             href={`/snippets/${snippet.id}/edit`}
             className="p-2 border rounded"
@@ -50,4 +53,17 @@ export default async function showSnippetPage(props: SnippetShowPageProps) {
       <SnippetDisplay snippet={snippet} />
     </div>
   );
+}
+
+// This is a dynamic page but we're about to cache it with some pre-loaded data to make it faster to load.
+// This can be done by using next's generateStaticParams()
+// Note that  you don't have to import this function, it's just a helper function to generate static params for the page.
+export async function generateStaticParams() {
+  const snippets = await db.snippet.findMany();
+
+  return snippets.map((snippet) => {
+    return {
+      id: snippet.id.toString(), // The id is stored as a number in the database. Need to convert it to string because this function expects values to be in string format
+    };
+  });
 }
